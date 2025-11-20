@@ -118,8 +118,8 @@ class AuthController extends Controller
         $_SESSION['user_email'] = $email;
         $_SESSION['user_pseudo']= $pseudo;
 
-        // Redirection vers le dashboard
-        header('Location: index.php?route=/');
+        // On redirige vers l'onboarding pour compléter le profil
+        header('Location: index.php?route=/onboarding');
         exit;
     }
 
@@ -165,7 +165,36 @@ class AuthController extends Controller
         $_SESSION['user_email']  = $user['email'];
         $_SESSION['user_pseudo'] = $user['pseudo'];
 
-        header('Location: index.php?route=/');
+        // Vérifier si le profil est complet
+
+        $stmt = $pdo->prepare("
+           SELECT sex, height_cm, weight_kg, level
+           FROM users
+           WHERE id = :id
+        ");
+
+        $stmt->execute(['id' => $user['id']]);
+        $profile = $stmt->fetch();
+
+        $needsOnboarding = false;
+
+        if (!$profile) {
+            $needsOnboarding = true;
+            } else {
+            if ($profile['sex'] === 'O'
+                || $profile['height_cm'] === null
+                || $profile['weight_kg'] === null
+                || $profile['level'] === null
+                ) {
+                $needsOnboarding = true;
+                 }
+        }
+
+        if ($needsOnboarding) {
+            header('Location: index.php?route=/onboarding');
+        } else {
+            header('Location: index.php?route=/');
+        }
         exit;
     }
 
