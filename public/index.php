@@ -1,6 +1,8 @@
 <?php
 // public/index.php
 
+session_start(); // On démarre la session
+
 // Connexion BDD (utilisée plus tard dans les contrôleurs)
 require_once __DIR__ . '/../backend/config/db.php';
 
