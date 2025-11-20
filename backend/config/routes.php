@@ -12,10 +12,14 @@ return [
         '/login'    => ['AuthController', 'login'],
         '/register' => ['AuthController', 'register'],
         '/logout'   => ['AuthController', 'logout'],
+        '/onboarding' => ['ProfileController', 'onboardingForm']
+        '/profile' => ['ProfileController', 'showProfile']
     ],
 
     'POST' => [
         '/login'    => ['AuthController', 'doLogin'],
         '/register' => ['AuthController', 'doRegister'],
+        '/onboarding' => ['ProfileController', 'saveOnboarding']
+        '/profile' => ['ProfileController', 'updateProfile']
     ],
 ];
